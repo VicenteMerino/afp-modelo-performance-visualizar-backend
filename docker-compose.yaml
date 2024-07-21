@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      dockerfile: Dockerfile.dev
+      context: .
+    ports:
+      - '3000:3000'
+    depends_on:
+      - db
+    volumes:
+      - ./src:/usr/src/app/src
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: scrapper
+      POSTGRES_PASSWORD: UdDmHkdyiAVu_6hyI_HXhQ
+      POSTGRES_DB: modelo
+    ports:
+      - '5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

@@ -1,0 +1,3 @@
+type LoginParsedResponse = {
+  Token: string;
+};

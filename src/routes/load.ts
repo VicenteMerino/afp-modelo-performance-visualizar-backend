@@ -62,7 +62,10 @@ router.post("/load", async (req: Request, res: Response) => {
         ? parseFloat(movement.ValCuoMvto.replace(",", "."))
         : movement.ValCuoMvto,
     fundsFlow: movement.TipoImputacion === "ABO" ? "CREDIT" : "CHARGE",
-    is_employer_payment: movement.CodMvto === "110101 Cotizacion Normal",
+    is_employer_payment:
+      movement.CodMvto.startsWith("110101") ||
+      movement.CodMvto.startsWith("110857") ||
+      movement.CodMvto.startsWith("110107"),
   }));
 
   const shareDataToInsert = {
@@ -75,7 +78,11 @@ router.post("/load", async (req: Request, res: Response) => {
   };
 
   const values = movementDataToInsert.map((movement: DatabaseMovementData) => {
-    return `('${movement.external_id}', '${movement.movement_date}', '${movement.clp_amount}', '${movement.shares_amount}', '${movement.fundsFlow}', '${movement.is_employer_payment}')`;
+    return `
+    ('${movement.external_id}', '${movement.movement_date}', 
+    '${movement.clp_amount}', '${movement.shares_amount}', 
+    '${movement.fundsFlow}', '${movement.is_employer_payment}')
+    `;
   });
 
   await client

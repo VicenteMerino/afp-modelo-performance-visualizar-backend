@@ -7,7 +7,7 @@ type MovementData = {
   ValMlRentaImponible: number;
   FecAcreditacion: number;
   ValMlMvto: number;
-  ValCuoMvto: string;
+  ValCuoMvto: string | number;
   IdEmpleador: string;
   CodRegTributario: string | null;
   TipoImputacion: string;
